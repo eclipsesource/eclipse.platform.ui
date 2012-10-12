@@ -142,8 +142,9 @@ public class E4Application implements IApplication {
 			shell.setLocation(0, 10000);
 		}
 		try {
-			if (!checkInstanceLocation(instanceLocation, shell))
-				return EXIT_OK;
+// RAP remove workspace lock
+//			if (!checkInstanceLocation(instanceLocation, shell))
+//				return EXIT_OK;
 
 			IEclipseContext workbenchContext = workbench.getContext();
 			workbenchContext.set(Display.class, display);
