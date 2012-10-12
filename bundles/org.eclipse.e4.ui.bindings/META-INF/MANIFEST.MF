@@ -26,8 +26,8 @@ Require-Bundle: org.eclipse.swt;bundle-version="[3.6.0,4.0.0)",
  org.eclipse.e4.core.di;bundle-version="1.1.0"
 Export-Package: org.eclipse.e4.ui.bindings;
   x-friends:="org.eclipse.e4.ui.workbench,
-   org.eclipse.e4.ui.workbench.renderers.swt,
-   org.eclipse.e4.ui.workbench.swt,
-   org.eclipse.ui.workbench",
+   org.eclipse.e4.ui.workbench.renderers.rap,
+   org.eclipse.ui.workbench,
+   org.eclipse.e4.ui.workbench.rap",
  org.eclipse.e4.ui.bindings.internal;x-friends:="org.eclipse.e4.ui.workbench",
- org.eclipse.e4.ui.bindings.keys;x-friends:="org.eclipse.e4.ui.workbench.swt,org.eclipse.ui.workbench"
+ org.eclipse.e4.ui.bindings.keys;x-friends:="org.eclipse.ui.workbench,org.eclipse.e4.ui.workbench.rap"
