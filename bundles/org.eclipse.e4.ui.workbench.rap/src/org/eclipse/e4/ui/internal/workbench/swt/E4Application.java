@@ -11,6 +11,8 @@
 
 package org.eclipse.e4.ui.internal.workbench.swt;
 
+import java.util.UUID;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -178,8 +180,8 @@ public class E4Application implements IApplication {
 			IApplicationContext applicationContext, final Display display) {
 		args = (String[]) applicationContext.getArguments().get(
 				IApplicationContext.APPLICATION_ARGS);
-
 		IEclipseContext appContext = createDefaultContext();
+		appContext.set("e4ApplicationInstanceId", UUID.randomUUID().toString());
 		appContext.set(Realm.class, SWTObservables.getRealm(display));
 		appContext.set(UISynchronize.class, new UISynchronize() {
 

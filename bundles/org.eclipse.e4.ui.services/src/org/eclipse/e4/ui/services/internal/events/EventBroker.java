@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.e4.ui.services.internal.events;
 
+import javax.inject.Named;
+
 import org.eclipse.e4.ui.di.UISynchronize;
 
 import org.eclipse.e4.core.di.annotations.Optional;
@@ -46,6 +48,11 @@ public class EventBroker implements IEventBroker {
 	@Inject
 	@Optional
 	UISynchronize uiSync;
+	
+	@Inject
+	@Optional
+	@Named("e4ApplicationInstanceId")
+	String applicationInstanceId;
 	
 	// This is a temporary code to ensure that bundle containing
 	// EventAdmin implementation is started. This code it to be removed once
@@ -96,6 +103,10 @@ public class EventBroker implements IEventBroker {
 	@SuppressWarnings("unchecked")
 	private Event constructEvent(String topic, Object data) {
 		Event event;
+		if( applicationInstanceId != null ) {
+			topic = applicationInstanceId + "/" + topic;
+		}
+		
 		if (data instanceof Dictionary<?,?>) {
 			event = new Event(topic, (Dictionary<String,?>)data);
 		} else if (data instanceof Map<?,?>) {
@@ -120,7 +131,13 @@ public class EventBroker implements IEventBroker {
 			logger.error(NLS.bind(ServiceMessages.NO_BUNDLE_CONTEXT, topic));
 			return false;
 		}
-		String[] topics = new String[] {topic};
+		String[] topics;
+		if( applicationInstanceId != null ) {
+			topics = new String[] { applicationInstanceId + "/" + topic};
+		} else {
+			topics = new String[] {topic};	
+		}
+		
 		Dictionary<String, Object> d = new Hashtable<String, Object>();
 		d.put(EventConstants.EVENT_TOPIC, topics);
 		if (filter != null)
