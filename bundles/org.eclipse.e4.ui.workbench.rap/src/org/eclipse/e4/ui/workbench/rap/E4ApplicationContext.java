@@ -22,11 +22,9 @@ import org.osgi.framework.Bundle;
 final class E4ApplicationContext implements IApplicationContext {
 
 	private final Map<String, Object> arguments;
-	private Bundle bundle;
 	private Map<String, String> properties;
 
-	public E4ApplicationContext(Bundle bundle, Map<String, String> properties) {
-		this.bundle = bundle;
+	public E4ApplicationContext(Map<String, String> properties) {
 		this.properties = properties;
 		arguments = new HashMap<String, Object>(2);
 		String[] appArguments = Platform.getApplicationArgs();
@@ -47,7 +45,7 @@ final class E4ApplicationContext implements IApplicationContext {
 	}
 
 	public Bundle getBrandingBundle() {
-		return bundle;
+		return null;
 	}
 
 	public String getBrandingDescription() {

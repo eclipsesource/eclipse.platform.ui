@@ -10,42 +10,37 @@
  *******************************************************************************/
 package org.eclipse.e4.ui.workbench.rap;
 
-import org.eclipse.e4.core.services.log.Logger;
-import org.eclipse.e4.ui.internal.workbench.WorkbenchLogger;
+import java.util.Map;
+import org.eclipse.e4.ui.internal.workbench.swt.E4Application;
+import org.eclipse.equinox.app.IApplication;
 import org.eclipse.rap.rwt.lifecycle.IEntryPoint;
 import org.eclipse.rap.rwt.lifecycle.IEntryPointFactory;
 import org.eclipse.swt.widgets.Display;
 
+
 public class E4EntryPointFactory implements IEntryPointFactory {
 
-	private static final String PLUGIN_ID = "org.eclipse.e4.ui.workbench.rap";
+	private final Map<String, String> properties;
 
-	private String productName;
-
-	public E4EntryPointFactory(String productName) {
-		this.productName = productName;
+	public E4EntryPointFactory(Map<String, String> properties) {
+		this.properties = properties;
 	}
 
 	public IEntryPoint create() {
 		return new IEntryPoint() {
-
 			public int createUI() {
-				new Display();
+				Display display = new Display();
 				try {
-					E4Starter.createAndRunApplication(productName);
+					IApplication application = new E4Application();
+					application.start(new E4ApplicationContext(properties));
 				} catch (Exception exception) {
-					logProblem(exception);
+					throw new RuntimeException(exception);
+				} finally {
+					display.dispose();
 				}
 				return 0;
 			}
 		};
-	}
-
-	private void logProblem(Throwable problem) {
-		String message = "Error when starting application, productName="
-				+ productName;
-		Logger logger = new WorkbenchLogger(PLUGIN_ID);
-		logger.error(new RuntimeException(message, problem));
 	}
 
 }
